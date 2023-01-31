@@ -6,8 +6,6 @@ void setupWiFi(const char* ssid, const char* password) {
   WiFi.mode(WIFI_STA);
   WiFi.begin(ssid, password);
 
-  int wifiStatus = WiFi.waitForConnectResult();
-
   if (WiFi.waitForConnectResult() != WL_CONNECTED) {
     Serial.println("Connection Failed! Rebooting...");
     delay(5000);
@@ -19,13 +17,13 @@ void setupWiFi(const char* ssid, const char* password) {
   Serial.println(WiFi.localIP());
 
   // Port defaults to 8266
-  // ArduinoOTA.setPort(8266);
+  ArduinoOTA.setPort(8266);
 
   // Hostname defaults to esp8266-[ChipID]
   ArduinoOTA.setHostname("ESP8266-markos-mk1-spinner");
 
   // No authentication by default
-  ArduinoOTA.setPassword("admin");
+  // ArduinoOTA.setPassword("admin");
 
   // Password can be set with it's md5 value as well
   // MD5(admin) = 21232f297a57a5a743894a0e4a801fc3
@@ -63,5 +61,10 @@ void setupWiFi(const char* ssid, const char* password) {
     }
   });
   ArduinoOTA.begin();
+
+  Serial.print("WiFi OTA initialized. Command: ");
+  Serial.print(ArduinoOTA.getCommand());
+  Serial.print(" - Hostname: ");
+  Serial.println(ArduinoOTA.getHostname());
 }
 
